@@ -16,9 +16,7 @@ body {
   box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
-h1 {
-  margin-bottom: 10px;
-}
+h1 { margin-bottom: 10px; }
 
 .upload-area {
   border: 2px dashed #ccc;
@@ -27,10 +25,6 @@ h1 {
   border-radius: 10px;
   cursor: pointer;
   position: relative;
-}
-
-.upload-area p {
-  margin: 0;
 }
 
 .upload-area input {
@@ -57,6 +51,4 @@ button {
   cursor: pointer;
 }
 
-button:hover {
-  background: #ff6333;
-}
+button:hover { background: #ff6333; }

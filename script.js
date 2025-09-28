@@ -10,6 +10,7 @@ uploadArea.addEventListener('drop', e => { e.preventDefault(); uploadArea.style.
 fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
 
 let img;
+
 function handleFile(file){
     if(!file) return;
     const url = URL.createObjectURL(file);
@@ -27,12 +28,15 @@ async function removeBackground(){
     downloadBtn.disabled = true;
     downloadBtn.textContent = 'Loading model...';
 
-    const session = await ort.InferenceSession.create('/models/u2netp.onnx');
+    // Load ONNX model from public/models/u2netp.onnx
+    const session = await ort.InferenceSession.create('models/u2netp.onnx');
+
     downloadBtn.textContent = 'Processing...';
 
-    // Resize image to 320x320 for model input
+    // Resize image to 320x320 for model
     const offCanvas = document.createElement('canvas');
-    offCanvas.width = 320; offCanvas.height = 320;
+    offCanvas.width = 320;
+    offCanvas.height = 320;
     const offCtx = offCanvas.getContext('2d');
     offCtx.drawImage(img,0,0,320,320);
     const imageData = offCtx.getImageData(0,0,320,320);
@@ -72,15 +76,24 @@ async function removeBackground(){
         }
     }
 
+    // Draw original image
     ctx.clearRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(img,0,0);
-    ctx.putImageData(maskImageData,0,0);
+
+    // Apply alpha mask
+    const imgData = ctx.getImageData(0,0,canvas.width,canvas.height);
+    for(let i=0;i<imgData.data.length;i+=4){
+        imgData.data[i+3] = maskImageData.data[i+3]; // apply alpha from mask
+    }
+    ctx.putImageData(imgData,0,0);
 
     downloadBtn.textContent = 'Download PNG';
     downloadBtn.disabled = false;
 }
 
+// Download button
 downloadBtn.addEventListener('click',()=>{
+    if(!img) return;
     const link = document.createElement('a');
     link.download='bg-removed.png';
     link.href=canvas.toDataURL('image/png');

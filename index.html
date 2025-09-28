@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Background Remover</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Background Remover Tool</h1>
+    <p>Upload your image and remove the background instantly (free & unlimited)</p>
+
+    <div class="upload-area" id="uploadArea">
+      <p>Drag & drop image here or click to select</p>
+      <input type="file" id="fileInput" accept="image/*">
+    </div>
+
+    <canvas id="canvas"></canvas>
+
+    <button id="downloadBtn">Download PNG</button>
+  </div>
+
+  <!-- TensorFlow.js + BodyPix -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.8.0/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0/dist/body-pix.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
